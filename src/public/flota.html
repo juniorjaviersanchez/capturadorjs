@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreo por flota</title>
+</head>
+<body>
+    <div style="margin: 0 auto;">
+        <h3>Abrir la consola para ver los eventos</h3>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        let socket = io('http://localhost:3000/rastreo-por-flota');
+
+        socket.on('connect', () =>{
+
+            console.log('Conectado a socket.io');
+            // Suscribir aqui | enviar imei
+            socket.emit('subscribe', '15');
+
+        });
+
+        // Resultado de la suscripción
+        socket.on('subscribe-result', (data) =>{
+            console.log(data);
+        });
+
+
+        function quitarSuscripcion() {
+            
+            socket.emit('unsubscribe', '15');
+        }
+
+         // Resultado de la suscripción
+         socket.on('unsubscribe-result', (data) =>{
+            console.log(data);
+        });
+
+
+
+         // Aqui empieza todos los eventos correspondientes al gps
+         socket.on('testing', (data) =>{
+            console.log(data);
+        });
+
+    </script>
+</body>
+</html>

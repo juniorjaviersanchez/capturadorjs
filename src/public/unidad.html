@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreo por unidad</title>
+</head>
+<body>
+    <div style="margin: 0 auto;">
+        <h3>Abrir la consola para ver los eventos</h3>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        let socket = io('http://localhost:3000/rastreo-por-unidad');
+
+        socket.on('connect', () =>{
+
+            console.log('Conectado a socket.io');
+            // Suscribir aqui | enviar imei
+            socket.emit('subscribe', '12112121');
+
+        });
+
+        // Resultado de la suscripción
+        socket.on('subscribe-result', (data) =>{
+            console.log(data);
+        });
+
+        socket.on('nueva_ubicacion',function(data){
+           console.log('========nueva_ubicacion===========');
+            console.log(data);
+        })
+
+        socket.on('alerta_motor',function(data){
+           console.log('========alerta_motor===========');
+            console.log(data);
+        })
+
+        socket.on('alerta_bateria_vehiculo',function(data){
+           console.log('========alerta_bateria_vehiculo===========');
+            console.log(data);
+        })
+
+        socket.on('nuevo_latido',function(data){
+           console.log('========nuevo_latido===========');
+            console.log(data);
+        })
+
+        
+
+        // Aqui empieza todos los eventos correspondientes al gps
+        socket.on('testing', (data) =>{
+            console.log(data);
+        });
+
+    </script>
+</body>
+</html>
